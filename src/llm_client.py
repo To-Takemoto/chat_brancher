@@ -16,8 +16,8 @@ class LLMClient:
             "Authorization": f"Bearer {api_key}",
             "Content-Type": "application/json",
         }
-        self.set_target_url()
-        self.set_model()
+        self.set_target_url("https://openrouter.ai/api/v1/chat/completions")
+        self.set_model("openai/gpt-3.5-turbo")
 
     async def __aenter__(self):
         self.__client = httpx.AsyncClient(http2=True)
@@ -30,18 +30,26 @@ class LLMClient:
             print(traceback)
             logger.error(f"An error occurred: {exc_type.__name__}: {exc_value}")
 
-    def set_target_url(self, target_url: str = None) -> None:
+    def set_target_url(self, target_url: str) -> None:
         """
         openrouterのapiのurlを指定することでどう言ったことを行うかを指定する。
         デフォルトはcompletionsで、
         """
-        self.__target_url = target_url if target_url else "https://openrouter.ai/api/v1/chat/completions"
+        self.__target_url = target_url
 
-    def set_model(self, model_name: str = None) -> None:
+    def set_model(self, model_name: str) -> None:
         """
         モデルを指定する。デフォルトはgpt3.5turbo
         """
-        self.__model = model_name if model_name else "openai/gpt-3.5-turbo"
+        def validate_model(model_name: str):
+            model_list = [item["id"] for item in self._fetch_llm_models()]
+            if model_name in model_list:
+                return True
+            else:
+                logger.error("provided model not found in openrouter...")
+                raise TypeError
+        if validate_model(model_name):
+            self.__model = model_name
 
     async def post_basic_message(
         self,
@@ -67,6 +75,28 @@ class LLMClient:
         except Exception as e:
             logger.error(f"An unexpected error occurred: {e}")
             raise
+    
+    @staticmethod
+    def _fetch_llm_models() -> dict:
+        """
+        ハードコーディングされたAPIからモデル情報を取得する関数
+
+        Returns:
+            dict: レスポンスデータを辞書形式で返す
+        """
+        try:
+            with httpx.Client() as client:
+                response = client.get(
+                    "https://openrouter.ai/api/v1/models",
+                    params={"supported_parameters": "temperature,top_p,tools"},
+                    headers={"accept": "application/json"}
+                    )
+            if response.status_code == 200:
+                return response.json()
+            else:
+                return {"error": f"HTTP error occurred: {response.status_code}", "details": response.text}
+        except httpx.RequestError as e:
+            logger.warn("error on fetch llm models...")
 
 async def main():
     async with LLMClient() as client:
