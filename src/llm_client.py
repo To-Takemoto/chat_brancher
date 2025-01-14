@@ -42,7 +42,7 @@ class LLMClient:
         モデルを指定する。デフォルトはgpt3.5turbo
         """
         def validate_model(model_name: str):
-            model_list = [item["id"] for item in self._fetch_llm_models()]
+            model_list = [item["id"] for item in self._fetch_llm_models()["data"]]
             if model_name in model_list:
                 return True
             else:
