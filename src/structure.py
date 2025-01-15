@@ -1,16 +1,23 @@
 import structlog
-import anytree
+from anytree import AnyNode, importer, exporter
 
 from .llm_client import LLMClient
+from .models import User, TreeStructure, Message
+
+from peewee import DoesNotExist
 
 logger = structlog.get_logger()
 
-class ChatTreeStructure:
-    def __init__(self, owner: int):
-        self.owner_id = owner
+class TreeStructureHandler:
+    def __init__(self, owner: User) -> None:
+        self.owner = owner
+        self.tree = None
+        self.selected_node = None
+        self.tree_id = None
 
     def init_structure(self):
-        pass
+        response = TreeStructure.create(owner = self.owner, structure = {})
+        self.tree_id = response.id
 
     def load_structure(self):
         pass
