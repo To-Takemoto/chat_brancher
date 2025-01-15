@@ -61,12 +61,22 @@ encoded_history1 = [
     {"role": "assistant", "content": "7"}
 ]
 
-encoded_history2 = [
-    {"role": "system", "content": "8"},
-    {"role": "user", "content": "9"},
-    {"role": "assistant", "content": "10"},
-    {"role": "user", "content": "11"},
-    {"role": "assistant", "content": "12"},
-    {"role": "user", "content": "13"},
-    {"role": "assistant", "content": "14"}
-]
+# chat_history2 = [
+#     {"role": "system", "content": "You are an expert project manager assistant."},
+#     {"role": "user", "content": "プロジェクトの進捗が遅れています。どうすれば良いですか？"},
+#     {"role": "assistant", "content": "まず、遅れの原因を特定することが重要です。具体的には、リソース不足、タスクの見積もりミス、優先順位の問題などが考えられます。原因はわかっていますか？"},
+#     {"role": "user", "content": "タスクの見積もりが甘かったと思います。"},
+#     {"role": "assistant", "content": "見積もりが原因の場合、以下のアクションを検討してください:\n1. タスクを小さな単位に分解して再見積もりする。\n2. チームと協力して現実的なスケジュールを作成する。\n3. 優先度の低いタスクを後回しにする。\nどれから始めますか？"},
+#     {"role": "user", "content": "タスクの再見積もりから始めます。"},
+#     {"role": "assistant", "content": "いいですね。チームメンバーを集め、タスクごとの所要時間を再確認しましょう。また、過去のデータを参照すると精度が上がります。他にサポートが必要ですか？"}
+# ]
+
+# encoded_history2 = [
+#     {"role": "system", "content": "8"},
+#     {"role": "user", "content": "9"},
+#     {"role": "assistant", "content": "10"},
+#     {"role": "user", "content": "11"},
+#     {"role": "assistant", "content": "12"},
+#     {"role": "user", "content": "13"},
+#     {"role": "assistant", "content": "14"}
+# ]
