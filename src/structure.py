@@ -17,10 +17,12 @@ class TreeStructureHandler:
         self.tree = None
         self.selected_node = None
         self.tree_id = None
+        self._init_flag = False
 
     def init_structure(self):
         response = TreeStructure.create(owner = self.owner, structure = {})
         self.tree_id = response.id
+        self._init_flag = True#これを利用することで，メッセージが一切ない状態を判定する．
 
     def load_structure(self, chat_id: int) -> None:
         if self._chat_is_ownded(chat_id):
@@ -31,6 +33,9 @@ class TreeStructureHandler:
             self.tree = tree
         else:
             self.tree = None
+            self._init_flag = True
+            #↑self.tree=Noneの場合，何もメッセージがないということなので，initと同等の状態．
+
     def _chat_is_ownded(self, chat_id: int) -> bool:
         "self.ownerが本当にそのchatを所有しているのかを量る"
         owns = list(TreeStructure.select().where(TreeStructure.owner == self.owner))
