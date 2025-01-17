@@ -9,6 +9,9 @@ from peewee import DoesNotExist
 logger = structlog.get_logger()
 
 class TreeStructureHandler:
+    """
+    ここで扱うtreeは明示されていなければエンコードされたものとしている．
+    """
     def __init__(self, owner: User) -> None:
         self.owner = owner
         self.tree = None
