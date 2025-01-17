@@ -80,6 +80,15 @@ class TreeStructureHandler:
                 print("そもそも，そのpkを持つメッセージは存在しない．")
             raise DoesNotExist
 
+    def update_tree(self, message_id: int) -> None:
+        new_node = AnyNode(message_id = message_id, parent = self.selected_node)
+        #↑当たり前だけど，selected_nodeがself.treeに含まれていることを前提としている．
+        if self._init_flag:
+            self.tree = new_node
+            self._init_flag = False
+        self.selected_node = new_node
+        new_tree_data = str(exporter.JsonExporter().export(self.tree))
+        response = TreeStructure.update(structure = new_tree_data).execute()
 decoded_history1 = [
     {"role": "system", "content": "You are a helpful assistant."},
     {"role": "user", "content": "こんにちは、元気ですか？"},
