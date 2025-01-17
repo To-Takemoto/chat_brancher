@@ -89,6 +89,12 @@ class TreeStructureHandler:
         self.selected_node = new_node
         new_tree_data = str(exporter.JsonExporter().export(self.tree))
         response = TreeStructure.update(structure = new_tree_data).execute()
+
+    def load_selected_node_path(self) -> list[dict, dict]:
+        path = self.selected_node.path
+        encoded_path = [int(node.message_id) for node in path]
+        decoded_path = self.decode_tree(encoded_path)
+        return decoded_path
 decoded_history1 = [
     {"role": "system", "content": "You are a helpful assistant."},
     {"role": "user", "content": "こんにちは、元気ですか？"},
