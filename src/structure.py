@@ -19,7 +19,7 @@ class TreeStructureHandler:
         self.tree_id = None
         self._init_flag = False
 
-    def init_structure(self):
+    def init_structure(self) -> None:
         response = TreeStructure.create(owner = self.owner, structure = {})
         self.tree_id = response.id
         self._init_flag = True#これを利用することで，メッセージが一切ない状態を判定する．
