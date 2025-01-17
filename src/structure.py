@@ -67,6 +67,19 @@ class TreeStructureHandler:
             self.selected_node:AnyNode = find(self.tree, filter_=lambda node: node.message_id == message_id)
         
 
+    def _message_is_owned(self, message_id: int) -> bool:
+        tree_messages = list(Message.select().where(Message.chat == self.tree_id))
+        tree_messages_id = [int(message.id) for message in tree_messages]
+        if message_id in tree_messages_id:
+            return True
+        else:
+            try:
+                Message.get_by_id(message_id)
+                print("メッセージはあるけど，このツリーには所属していないようだ．")
+            except DoesNotExist:
+                print("そもそも，そのpkを持つメッセージは存在しない．")
+            raise DoesNotExist
+
 decoded_history1 = [
     {"role": "system", "content": "You are a helpful assistant."},
     {"role": "user", "content": "こんにちは、元気ですか？"},
