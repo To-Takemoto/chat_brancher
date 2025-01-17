@@ -62,6 +62,10 @@ class TreeStructureHandler:
         else:
             return None
 
+    def select_node(self, message_id: int) -> None:
+        if self._message_is_owned(message_id):
+            self.selected_node:AnyNode = find(self.tree, filter_=lambda node: node.message_id == message_id)
+        
 
 decoded_history1 = [
     {"role": "system", "content": "You are a helpful assistant."},
