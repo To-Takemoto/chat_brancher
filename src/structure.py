@@ -22,15 +22,45 @@ class TreeStructureHandler:
         response = TreeStructure.create(owner = self.owner, structure = {})
         self.tree_id = response.id
 
-    def load_structure(self):
-        pass
+    def load_structure(self, chat_id: int) -> None:
+        if self._chat_is_ownded(chat_id):
+            self.tree_id = chat_id
 
-    def select_node(self):
-        pass
+        tree = self._load_tree(self.tree_id)
+        if tree:
+            self.tree = tree
+        else:
+            self.tree = None
+    def _chat_is_ownded(self, chat_id: int) -> bool:
+        "self.ownerが本当にそのchatを所有しているのかを量る"
+        owns = list(TreeStructure.select().where(TreeStructure.owner == self.owner))
+        owns_id = [int(tree.id) for tree in owns]
+        if chat_id in owns_id:
+            return True
+        else:
+            try:
+                if TreeStructure.get_by_id(chat_id):
+                    print(f"owner;{self.owner.id} does not have chat which has provided chat id")
+                    print("hint: 渡されたidを持つチャットはあるが，それがUserのものではないようだ．")
+            except DoesNotExist:
+                print(f"NOT found chat has provided id;{chat_id} in DB")
+            raise DoesNotExist
 
-    def update_brunch(self):
-        pass
+    def _load_tree(self, tree_id) -> AnyNode | None:
+        tree_dict = TreeStructure.get_by_id(tree_id).structure
+        tree = importer.JsonImporter().import_(tree_dict)
 
+        def not_null_validate(target_tree: AnyNode):
+            try:
+                target_tree.message_id
+                return True
+            except AttributeError:
+                return False
+
+        if not_null_validate(tree):
+            return tree
+        else:
+            return None
 
 
 decoded_history1 = [
