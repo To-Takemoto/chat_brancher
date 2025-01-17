@@ -95,6 +95,16 @@ class TreeStructureHandler:
         encoded_path = [int(node.message_id) for node in path]
         decoded_path = self.decode_tree(encoded_path)
         return decoded_path
+
+    def decode_tree(self, message_id_list: list[int, int]) -> list[dict, dict]:
+        decoded_history = []
+        for message_id in message_id_list:
+            message_model:Message = Message.select().where(Message.id == message_id)
+            content = {"role":message_model.role, "content":message_model.content}
+            content | {"id":message_id}
+            decoded_history.append(content)
+        return decoded_history
+
 decoded_history1 = [
     {"role": "system", "content": "You are a helpful assistant."},
     {"role": "user", "content": "こんにちは、元気ですか？"},
