@@ -120,17 +120,6 @@ decoded_history1 = [
     {"role": "assistant", "content": "機械学習は、データから学習し予測や判断を行う技術です。アルゴリズムとしては、教師あり学習、教師なし学習、強化学習などがあります。具体的な質問があれば教えてください！"}
 ]
 
-chat_history2 = [
-    {"role": "system", "content": "You are an expert project manager assistant."},
-    {"role": "user", "content": "プロジェクトの進捗が遅れています。どうすれば良いですか？"},
-    {"role": "assistant", "content": "まず、遅れの原因を特定することが重要です。具体的には、リソース不足、タスクの見積もりミス、優先順位の問題などが考えられます。原因はわかっていますか？"},
-    {"role": "user", "content": "タスクの見積もりが甘かったと思います。"},
-    {"role": "assistant", "content": "見積もりが原因の場合、以下のアクションを検討してください:\n1. タスクを小さな単位に分解して再見積もりする。\n2. チームと協力して現実的なスケジュールを作成する。\n3. 優先度の低いタスクを後回しにする。\nどれから始めますか？"},
-    {"role": "user", "content": "タスクの再見積もりから始めます。"},
-    {"role": "assistant", "content": "いいですね。チームメンバーを集め、タスクごとの所要時間を再確認しましょう。また、過去のデータを参照すると精度が上がります。他にサポートが必要ですか？"}
-]
-
-
 encoded_history1 = [
     {"role": "system", "content": "1"},
     {"role": "user", "content": "2"},
