@@ -110,6 +110,13 @@ class TreeStructureHandler:
             decoded_history.append(content)
         return decoded_history
 
+
+test_user = User.get_by_id(1)
+tree_structure_handle = TreeStructureHandler(test_user)
+tree_structure_handle.init_structure()
+tree_structure_handle.load_structure(2)
+
+
 decoded_history1 = [
     {"role": "system", "content": "You are a helpful assistant."},
     {"role": "user", "content": "こんにちは、元気ですか？"},
