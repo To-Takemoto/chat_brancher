@@ -1,5 +1,5 @@
 import structlog
-from anytree import AnyNode, importer, exporter
+from anytree import AnyNode, importer, exporter, find
 
 from .llm_client import LLMClient
 from .models import User, TreeStructure, Message
