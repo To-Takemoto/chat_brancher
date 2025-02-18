@@ -86,7 +86,8 @@ class TreeStructureHandler:
             raise DoesNotExist
 
     def update_tree(self, message_id: int) -> None:
-        new_node = AnyNode(message_id = message_id, parent = self.selected_node)
+        if self._message_is_owned(message_id):
+            new_node = AnyNode(message_id = message_id, parent = self.selected_node)
         #↑当たり前だけど，selected_nodeがself.treeに含まれていることを前提としている．
         if self._init_flag:
             self.tree = new_node
